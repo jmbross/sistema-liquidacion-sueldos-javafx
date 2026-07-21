@@ -1,0 +1,30 @@
+name: Bug report
+description: Report reproducible behavior using fictitious data only
+title: "bug: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Never include real personal data, credentials, or production records.
+  - type: textarea
+    id: observed
+    attributes:
+      label: Observed behavior
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction with fictitious data
+    validations:
+      required: true
+  - type: input
+    id: commit
+    attributes:
+      label: Commit or release

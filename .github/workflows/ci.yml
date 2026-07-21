@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Build, tests, MySQL integration, and quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up Java 21
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - name: Validate Maven Wrapper download and checksum
+        run: ./mvnw --version
+      - name: Verify
+        run: ./mvnw --batch-mode --no-transfer-progress clean verify
+      - name: Upload test and coverage evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: quality-evidence
+          path: |
+            target/surefire-reports/
+            target/failsafe-reports/
+            target/site/jacoco/
+            target/site/spotbugs.html
+          if-no-files-found: error
