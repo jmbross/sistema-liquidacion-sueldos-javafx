@@ -1,0 +1,20 @@
+services:
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: ${DB_NAME:-payroll_demo}
+      MYSQL_USER: ${DB_USER:-payroll_app}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-local_demo_only}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-local_root_only}
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_0900_ai_ci"]
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${MYSQL_ROOT_PASSWORD:-local_root_only}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    volumes:
+      - payroll_mysql_data:/var/lib/mysql
+volumes:
+  payroll_mysql_data:

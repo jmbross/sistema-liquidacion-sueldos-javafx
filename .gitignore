@@ -1,0 +1,32 @@
+# Build output
+target/
+out/
+bin/
+*.class
+*.jar
+*.zip
+
+# IDE and OS
+.idea/
+.vscode/
+.codegraph/
+.settings/
+.classpath
+.project
+*.iml
+*.suo
+.DS_Store
+Thumbs.db
+
+# Local configuration and data
+.env
+.env.*
+!.env.example
+*.log
+*.sqlite
+*.db
+receipts/
+docs/screenshots/*.pdf
+
+# Testcontainers
+.testcontainers.properties
