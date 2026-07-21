@@ -1,12 +1,18 @@
 [CmdletBinding()]
-param()
+param(
+    [switch] $SkipVerification
+)
 
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 $root = Split-Path -Parent $PSScriptRoot
 Set-Location $root
 
-& .\mvnw.cmd --batch-mode --no-transfer-progress clean verify
+if ($SkipVerification) {
+    & .\mvnw.cmd --batch-mode --no-transfer-progress -DskipTests clean package
+} else {
+    & .\mvnw.cmd --batch-mode --no-transfer-progress clean verify
+}
 if ($LASTEXITCODE -ne 0) { throw 'Maven verification failed.' }
 
 $version = '1.0.0-portfolio'
